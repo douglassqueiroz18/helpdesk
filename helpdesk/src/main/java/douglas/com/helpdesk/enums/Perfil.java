@@ -1,11 +1,11 @@
-package douglas.com.helpdesk;
-public enum Prioridade {
-    BAIXA(0, "BAIXA"), MEDIA(1,"MEDIA"), ALTA(2,"ALTA");
+package douglas.com.helpdesk.enums;
+public enum Perfil {
+    ADMIN(0, "ROLE_ADMIN"), CLIENTE(1,"ROLE_CLIENTE"), TECNICO(2,"ROLE_TECNICO");
     
     private Integer codigo;
     private String descricao;
 
-    private Prioridade(Integer codigo, String descricao) {
+    private Perfil(Integer codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
@@ -26,15 +26,15 @@ public enum Prioridade {
         this.descricao = descricao;
     }
 
-    public static Prioridade toEnum(Integer cod){
+    public static Perfil toEnum(Integer cod){
         if(cod == null){
             return null;
         }
-        for (Prioridade x : Prioridade.values()){
+        for (Perfil x : Perfil.values()){
             if (cod.equals(x.getCodigo())){
                 return x;
             }
         }
-        throw new IllegalArgumentException("Prioridade Inválido");
+        throw new IllegalArgumentException("Perfil Inválido");
     }
 }

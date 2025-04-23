@@ -1,20 +1,37 @@
 package douglas.com.helpdesk;
-// Declaração do pacote onde a classe está localizada.
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-// Importação das bibliotecas necessárias. 
-// LocalDate é usado para lidar com datas, 
-// HashSet e Set para manipular coleções sem duplicatas, 
-// e Collectors para realizar operações de transformação em streams.
-public abstract class Pessoa {
-    // Classe abstrata Pessoa, ou seja, não pode ser instanciada diretamente.
-    // Serve como base para outras classes que herdarão seus atributos e métodos.
 
-    // Atributos privados (acessados por getters e setters)
-       // Métodos getters e setters para encapsulamento dos atributos.
+import douglas.com.helpdesk.enums.Perfil;
+
+public abstract class Pessoa {
+    protected Integer id; // Identificador único da pessoa.
+    protected String nome; // Nome da pessoa.
+    protected String cpf; // CPF da pessoa (Cadastro de Pessoa Física).
+    protected String email; // Email da pessoa.
+    protected String senha; // Senha da pessoa para autenticação.
+    protected Set<Integer> perfis = new HashSet<>(); // Conjunto de perfis associados à pessoa.
+    protected LocalDate dataCriacao = LocalDate.now(); // Data de criação com valor padrão como a data atual.
+    // Construtor padrão
+    public Pessoa() {
+        super(); // Chamada ao construtor da classe pai (no caso, Object).
+        addPerfil(Perfil.CLIENTE);
+    }
+    
+    // Construtor com parâmetros
+    public Pessoa(Integer id, String nome, String cpf,String email, String senha) {
+        super();
+        this.id = id; // Inicializa o atributo id com o valor do parâmetro.
+        this.nome = nome; // Inicializa o atributo nome.
+        this.cpf = cpf; // Inicializa o atributo cpf.
+        this.email = email;
+        this.senha = senha; // Inicializa o atributo senha.
+        addPerfil(Perfil.CLIENTE);
+    }
+
     public Integer getId() {
         return id; // Retorna o id da pessoa.
     }
@@ -38,7 +55,12 @@ public abstract class Pessoa {
     public void setCpf(String cpf) {
         this.cpf = cpf; // Define o CPF da pessoa.
     }
-
+    public String getEmail() {
+        return email; // Retorna o email da pessoa.
+    }
+    public void setEmail(String email) {
+        this.email = email; // Define o email da pessoa.
+    }
     public String getSenha() {
         return senha; // Retorna a senha da pessoa.
     }
@@ -53,7 +75,7 @@ public abstract class Pessoa {
         return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
     }
 
-    public void addPerfis(Perfil perfil) {
+    public void addPerfil(Perfil perfil) {
         // Adiciona um perfil ao conjunto de perfis da pessoa.
         // O perfil é armazenado pelo seu código (Integer).
         this.perfis.add(perfil.getCodigo());
@@ -67,30 +89,8 @@ public abstract class Pessoa {
         this.dataCriacao = dataCriacao; // Define a data de criação da pessoa.
     }
 
-    // Comentário explicativo:
-    // Todos os atributos da classe têm o modificador de acesso `protected`.
-    // Isso significa que as subclasses (filhas) podem acessar diretamente esses atributos.
-    protected Integer id; // Identificador único da pessoa.
-    protected String nome; // Nome da pessoa.
-    protected String cpf; // CPF da pessoa (Cadastro de Pessoa Física).
-    protected String senha; // Senha da pessoa para autenticação.
-    protected Set<Integer> perfis = new HashSet<>(); // Conjunto de perfis associados à pessoa.
-    protected LocalDate dataCriacao = LocalDate.now(); // Data de criação com valor padrão como a data atual.
 
-    // Construtor padrão
-    public Pessoa() {
-        super(); // Chamada ao construtor da classe pai (no caso, Object).
-    }
 
-    // Construtor com parâmetros
-    public Pessoa(Integer id, String nome, String cpf, String senha, Set<Perfil> perfis, LocalDate dataCriacao) {
-        super();
-        this.id = id; // Inicializa o atributo id com o valor do parâmetro.
-        this.nome = nome; // Inicializa o atributo nome.
-        this.cpf = cpf; // Inicializa o atributo cpf.
-        this.senha = senha; // Inicializa o atributo senha.
-        this.dataCriacao = dataCriacao; // Inicializa a data de criação.
-    }
 
 
     
