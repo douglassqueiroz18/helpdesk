@@ -1,19 +1,40 @@
 package douglas.com.helpdesk;
 
+import java.io.Serializable;
 import java.io.ObjectInputFilter.Status;
 import java.time.LocalDate;
 
-import douglas.com.helpdesk.enums.Prioridade;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class Chamado{
+import douglas.com.helpdesk.enums.Prioridade;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+public class Chamado implements Serializable{
+    private static final long serialVersionUID = 1L; // Número de versão para controle na serialização.
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // O valor do ID é gerado automaticamente pelo banco de dados.
     private Integer id;
+    @JsonFormat(pattern = "dd/MM/yyyy") // Formato da data de criação (ex: 01/01/2023).
     private LocalDate dataAbetura = LocalDate.now();
+    @JsonFormat(pattern = "dd/MM/yyyy") // Formato da data de fechamento (ex: 01/01/2023).
     private LocalDate dataFechamento;
     private Status status;
     private Prioridade prioridade;
     private String titulo;
     private String observacoes;
+    @ManyToOne // Indica que o chamado está associado a um técnico.
+    @JoinColumn(name = "tecnico_id") // Nome da coluna que referencia o técnico na tabela de chamados.
     private Tecnico tecnico;
+    
+    @ManyToOne // Indica que o chamado está associado a um técnico.
+    @JoinColumn(name = "cliente_id") // Nome da coluna que referencia o técnico na tabela de chamados.
     private Cliente cliente;
 
     public Chamado() {

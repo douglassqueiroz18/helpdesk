@@ -1,24 +1,48 @@
 package douglas.com.helpdesk;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import douglas.com.helpdesk.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public abstract class Pessoa {
-    protected Integer id; // Identificador único da pessoa.
-    protected String nome; // Nome da pessoa.
-    protected String cpf; // CPF da pessoa (Cadastro de Pessoa Física).
-    protected String email; // Email da pessoa.
-    protected String senha; // Senha da pessoa para autenticação.
-    protected Set<Integer> perfis = new HashSet<>(); // Conjunto de perfis associados à pessoa.
-    protected LocalDate dataCriacao = LocalDate.now(); // Data de criação com valor padrão como a data atual.
-    // Construtor padrão
+import douglas.com.helpdesk.enums.Perfil;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+@Entity // Indica que esta classe é uma entidade do banco de dados (uma tabela).
+public abstract class Pessoa implements Serializable{// "Serializable" permite que o objeto seja salvo em arquivos ou trafegado em redes.
+    private static final long serialVersionUID = 1L; // Número de versão para controle na serialização.
+
+    @Id // Marca este campo como a chave primária (identificador único) da tabela.
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // O valor do ID é gerado automaticamente pelo banco de dados.
+    protected Integer id; // Número único que identifica cada pessoa no sistema.
+    protected String nome; // Armazena o nome da pessoa (ex: "João Silva").
+
+    @Column(unique = true) // Garante que não existirão dois CPFs iguais no banco.
+    protected String cpf; // Cadastro de Pessoa Física (documento único brasileiro).
+
+    @Column(unique = true) // Garante que cada e-mail seja único no sistema.
+    protected String email;  // E-mail da pessoa (ex: "joao@email.com").
+    protected String senha; // Senha criptografada para login no sistema
+
+    @ElementCollection(fetch = FetchType.EAGER)  // Lista de perfis carregada imediatamente quando a pessoa é consultada.
+    @CollectionTable(name = "PERFIS") // Nome da tabela que armazena os perfis.
+    protected Set<Integer> perfis = new HashSet<>(); // Conjunto de papéis que a pessoa tem (ex: Cliente, Admin).
+    
+    @JsonFormat(pattern = "dd/MM/yyyy") // Formato da data de criação (ex: 01/01/2023).
+    protected LocalDate dataCriacao = LocalDate.now();// Data em que o cadastro foi criado (automático: data atual).
+    // Construtor padrão (executado quando uma nova Pessoa é criada)
     public Pessoa() {
-        super(); // Chamada ao construtor da classe pai (no caso, Object).
-        addPerfil(Perfil.CLIENTE);
+        super();  // Chama o construtor da classe pai (Object).
+        addPerfil(Perfil.CLIENTE); // Por padrão, toda pessoa começa com o perfil "Cliente".
     }
     
     // Construtor com parâmetros
