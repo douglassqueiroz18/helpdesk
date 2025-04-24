@@ -1,12 +1,12 @@
-package douglas.com.helpdesk;
+package douglas.com.helpdesk.models;
 
 import java.io.Serializable;
-import java.io.ObjectInputFilter.Status;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import douglas.com.helpdesk.enums.Prioridade;
+import douglas.com.helpdesk.enums.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,8 +21,10 @@ public class Chamado implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // O valor do ID é gerado automaticamente pelo banco de dados.
     private Integer id;
+
     @JsonFormat(pattern = "dd/MM/yyyy") // Formato da data de criação (ex: 01/01/2023).
-    private LocalDate dataAbetura = LocalDate.now();
+    private LocalDate dataAbetura = LocalDate.now();; // Data de abertura do chamado.
+
     @JsonFormat(pattern = "dd/MM/yyyy") // Formato da data de fechamento (ex: 01/01/2023).
     private LocalDate dataFechamento;
     private Status status;
@@ -40,12 +42,10 @@ public class Chamado implements Serializable{
     public Chamado() {
         super(); // Chama o construtor da classe pai (Object)
     }
-    public Chamado(Integer id, LocalDate dataAbetura, LocalDate dataFechamento, Status status, Prioridade prioridade,
+    public Chamado(Integer id, Status status, Prioridade prioridade,
             String titulo, String observacoes, Tecnico tecnico, Cliente cliente) {
         super(); // Chama o construtor da classe pai (Object)
         this.id = id; // Inicializa o atributo id com o valor do parâmetro.
-        this.dataAbetura = dataAbetura; // Inicializa a data de abertura do chamado.
-        this.dataFechamento = dataFechamento; // Inicializa a data de fechamento do chamado.
         this.status = status; // Inicializa o status do chamado.
         this.prioridade = prioridade; // Inicializa a prioridade do chamado.
         this.titulo = titulo; // Inicializa o título do chamado.

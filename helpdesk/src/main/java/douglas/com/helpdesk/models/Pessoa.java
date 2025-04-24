@@ -1,4 +1,4 @@
-package douglas.com.helpdesk;
+package douglas.com.helpdesk.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
