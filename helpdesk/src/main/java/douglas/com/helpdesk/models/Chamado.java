@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import douglas.com.helpdesk.enums.Prioridade;
 import douglas.com.helpdesk.enums.Status;
@@ -31,10 +32,12 @@ public class Chamado implements Serializable{
     private Prioridade prioridade;
     private String titulo;
     private String observacoes;
+    @JsonIgnore
     @ManyToOne // Indica que o chamado está associado a um técnico.
     @JoinColumn(name = "tecnico_id") // Nome da coluna que referencia o técnico na tabela de chamados.
     private Tecnico tecnico;
     
+    @JsonIgnore
     @ManyToOne // Indica que o chamado está associado a um técnico.
     @JoinColumn(name = "cliente_id") // Nome da coluna que referencia o técnico na tabela de chamados.
     private Cliente cliente;

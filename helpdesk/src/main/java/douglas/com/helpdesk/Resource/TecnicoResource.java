@@ -1,0 +1,30 @@
+package douglas.com.helpdesk.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import douglas.com.helpdesk.dtos.TecnicoDTO;
+import douglas.com.helpdesk.models.Tecnico;
+import douglas.com.helpdesk.services.TecnicoService;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
+@RestController
+@RequestMapping(value = "/tecnicos")
+public class TecnicoResource {
+
+    public ResponseEntity<Tecnico> findAll() {
+        return ResponseEntity.ok().body(null);
+    }
+    @Autowired
+    private TecnicoService tecnicoService;
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) {
+        Tecnico obj = tecnicoService.findById(id);
+        return ResponseEntity.ok().body(new TecnicoDTO(obj));
+    }
+}
