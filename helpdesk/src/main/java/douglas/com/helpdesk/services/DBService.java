@@ -16,14 +16,14 @@ import douglas.com.helpdesk.repositories.ClienteRepository;
 import douglas.com.helpdesk.repositories.TecnicoRepository;
 
 @Service
-public class DBServices {        
+public class DBService {       
+     
     @Autowired
     private TecnicoRepository tecnicoRepository;
     @Autowired
     private ClienteRepository clienteRepository;
     @Autowired
     private ChamadoRepository chamadoRepository;
-
     public void instantiateTestDatabase() {
         Tecnico tec1 = new Tecnico(null, "Douglas", "12345678900", "douglas@email.com", "123456");
         tec1.addPerfil(Perfil.ADMIN);

@@ -1,10 +1,10 @@
-package douglas.com.helpdesk;
+package douglas.com.helpdesk.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import douglas.com.helpdesk.services.DBServices;
+import douglas.com.helpdesk.services.DBService;
 import jakarta.annotation.PostConstruct;
 
 @Configuration
@@ -12,7 +12,7 @@ import jakarta.annotation.PostConstruct;
 public class TestConfig {
 
     @Autowired
-    private DBServices dbServices;
+    private DBService dbServices;
     @PostConstruct
     public void instantiateTestDatabase() {
         this.dbServices.instantiateTestDatabase();
