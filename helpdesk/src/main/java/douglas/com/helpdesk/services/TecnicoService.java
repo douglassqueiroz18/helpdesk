@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import douglas.com.helpdesk.dtos.TecnicoDTO;
 import douglas.com.helpdesk.models.Tecnico;
 import douglas.com.helpdesk.repositories.TecnicoRepository;
 import douglas.com.helpdesk.services.exceptions.ObjectnotFoundException;
@@ -22,5 +23,10 @@ public class TecnicoService {
     }
     public List<Tecnico> findAll() {
         return tecnicoRepository.findAll();
+    }
+    public Tecnico createTecnico(TecnicoDTO objDto) {
+        objDto.setId(null); // Garante que o ID do novo objeto seja nulo, pois ele será gerado automaticamente pelo banco de dados
+        Tecnico newObj = new Tecnico(objDto); // Cria um novo objeto Tecnico a partir do DTO
+        return tecnicoRepository.save(newObj); // Salva o novo objeto no banco de dados
     }
 }

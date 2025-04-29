@@ -28,6 +28,7 @@ public class TecnicoDTO implements Serializable{
     protected LocalDate dataCriacao = LocalDate.now();
     public TecnicoDTO() {
         super();
+        addPerfil(Perfil.CLIENTE); // Por padrão, toda pessoa começa com o perfil "Cliente".
     }
     public TecnicoDTO(Tecnico obj) {
         super();  // Chama o construtor da classe pai (Object).
@@ -38,6 +39,8 @@ public class TecnicoDTO implements Serializable{
         this.senha = obj.getSenha(); // Inicializa o atributo senha.
         this.perfis = obj.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet()); // Converte os perfis para inteiros.
         this.dataCriacao = obj.getDataCriacao();
+        addPerfil(Perfil.CLIENTE); // Por padrão, toda pessoa começa com o perfil "Cliente".
+
     }
     public Integer getId() {
         return id;
