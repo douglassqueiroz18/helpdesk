@@ -1,4 +1,8 @@
 package douglas.com.helpdesk.enums;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Perfil {
     ADMIN(0, "ROLE_ADMIN"), CLIENTE(1,"ROLE_CLIENTE"), TECNICO(2,"ROLE_TECNICO");
     
@@ -25,7 +29,7 @@ public enum Perfil {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
+    @JsonCreator
     public static Perfil toEnum(Integer cod){
         if(cod == null){
             return null;
@@ -36,5 +40,10 @@ public enum Perfil {
             }
         }
         throw new IllegalArgumentException("Perfil Inválido");
+    }
+    // Opcional: Se precisar que o Jackson serialize o enum para o valor inteiro
+    @JsonValue
+    public String getCodigoForSerialization() {
+        return this.name();
     }
 }

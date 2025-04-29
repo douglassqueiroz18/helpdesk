@@ -38,6 +38,19 @@ public class TecnicoResource {
     }
     @PostMapping
     public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO objDto) {
+        System.out.println("Recebendo os dados do técnico no tecnicoResource: " + objDto);
+        if (objDto.getCpf() == null || objDto.getCpf().isEmpty()) {
+            System.out.println("CPF não pode ser nulo ou vazio.");
+            return ResponseEntity.badRequest().build(); // Retorna um erro 400 Bad Request se o CPF for inválido
+        }
+        if (objDto.getEmail() == null || objDto.getEmail().isEmpty()) {
+            System.out.println("Email não pode ser nulo ou vazio.");
+            return ResponseEntity.badRequest().build(); // Retorna um erro 400 Bad Request se o email for inválido
+        }
+        if (objDto.getNome() == null || objDto.getNome().isEmpty()) {
+            System.out.println("Nome não pode ser nulo ou vazio.");
+            return ResponseEntity.badRequest().build(); // Retorna um erro 400 Bad Request se o nome for inválido
+        }
         Tecnico newObj = tecnicoService.createTecnico(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).body(new TecnicoDTO(newObj));
