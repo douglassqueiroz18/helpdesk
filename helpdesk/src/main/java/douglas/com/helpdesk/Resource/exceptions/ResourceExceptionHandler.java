@@ -2,6 +2,8 @@ package douglas.com.helpdesk.Resource.exceptions;
 
 import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -24,6 +26,16 @@ public class ResourceExceptionHandler {
         // Cria um objeto StandardError com os detalhes do erro.
         StandardError err = new StandardError(System.currentTimeMillis(), Response.SC_BAD_REQUEST, "Violação de dados", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(Response.SC_BAD_REQUEST).body(err);
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<StandardError> ValidationError(MethodArgumentNotValidException e, HttpServletRequest request) {
+        System.out.println("Entrou no handler de erro de duplicacao: " + e.getMessage());
+        // Cria um objeto StandardError com os detalhes do erro.
+        ValidationError errors = new ValidationError(System.currentTimeMillis(), Response.SC_BAD_REQUEST, "Validation Error", "Erro de validação dos campos", request.getRequestURI());
+        for(FieldError f : e.getBindingResult().getFieldErrors()) {
+            errors.addError(f.getField(), f.getDefaultMessage());
+        }
+        return ResponseEntity.status(Response.SC_BAD_REQUEST).body(errors);
     }
 
 }

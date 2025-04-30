@@ -10,16 +10,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import douglas.com.helpdesk.enums.Perfil;
 import douglas.com.helpdesk.models.Tecnico;
+import jakarta.validation.constraints.NotNull;
 
 public class TecnicoDTO implements Serializable{
     private static final long serialVersionUID = 1L; // Número de versão para controle na serialização.
     
     protected Integer id; // Número único que identifica cada pessoa no sistema.
+    @NotNull(message = "O campo NOME é obrigatório!") // Validação para garantir que o nome não seja nulo.
     protected String nome; // Armazena o nome da pessoa (ex: "João Silva").
-
+    @NotNull(message = "O campo CPF é obrigatório!") // Validação para garantir que o CPF não seja nulo.
     protected String cpf; // Cadastro de Pessoa Física (documento único brasileiro).
-
+    @NotNull(message = "O campo E-MAIL é obrigatório!") // Validação para garantir que o e-mail não seja nulo.
     protected String email;  // E-mail da pessoa (ex: "joao@email.com").
+    @NotNull(message = "O campo SENHA é obrigatório!") // Validação para garantir que a senha não seja nula.
     protected String senha; // Senha criptografada para login no sistema
 
     protected Set<Integer> perfis = new HashSet<>(); // Conjunto de papéis que a pessoa tem (ex: Cliente, Admin).

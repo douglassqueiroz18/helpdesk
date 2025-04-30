@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import douglas.com.helpdesk.dtos.TecnicoDTO;
 import douglas.com.helpdesk.models.Tecnico;
 import douglas.com.helpdesk.services.TecnicoService;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public class TecnicoResource {
         return ResponseEntity.ok().body(listDto);
     }
     @PostMapping
-    public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO objDto) {
+    public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO objDto) {
         System.out.println("Recebendo os dados do técnico no tecnicoResource: " + objDto);
         if (objDto.getCpf() == null || objDto.getCpf().isEmpty()) {
             System.out.println("CPF não pode ser nulo ou vazio.");
