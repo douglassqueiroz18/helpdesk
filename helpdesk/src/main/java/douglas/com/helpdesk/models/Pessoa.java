@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import douglas.com.helpdesk.enums.Perfil;
@@ -25,7 +27,7 @@ public abstract class Pessoa implements Serializable{// "Serializable" permite q
     @GeneratedValue(strategy = GenerationType.IDENTITY) // O valor do ID é gerado automaticamente pelo banco de dados.
     protected Integer id; // Número único que identifica cada pessoa no sistema.
     protected String nome; // Armazena o nome da pessoa (ex: "João Silva").
-
+    //@CPF(message = "CPF inválido") // Valida o CPF (Cadastro de Pessoa Física) brasileiro.
     @Column(unique = true) // Garante que não existirão dois CPFs iguais no banco.
     protected String cpf; // Cadastro de Pessoa Física (documento único brasileiro).
 

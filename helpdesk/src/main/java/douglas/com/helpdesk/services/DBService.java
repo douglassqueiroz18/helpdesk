@@ -25,17 +25,62 @@ public class DBService {
     @Autowired
     private ChamadoRepository chamadoRepository;
     public void instantiateTestDatabase() {
-        Tecnico tec1 = new Tecnico(null, "Douglas", "12345678900", "douglas@email.com", "123456");
+        // CPF válido (formato XXX.XXX.XXX-XX ou XXXXXXXXXXX)
+        Tecnico tec1 = new Tecnico(
+            null, 
+            "Douglas Silva",  // Nome completo
+            "000.000.001-60", // CPF válido gerado aleatoriamente
+            "douglas.silva@empresa.com", // Email válido
+            "$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi" // Senha BCrypt
+        );
         tec1.addPerfil(Perfil.ADMIN);
-
-        Cliente cli1 = new Cliente(null, "marcos", "12345678901", "marcos@email.com", "123");
-        cli1.addPerfil(Perfil.CLIENTE);
-
-        Chamado chamado1 = new Chamado(null, Status.ABERTO, Prioridade.ALTA, "Chamado 1", "Primeiro chamado", tec1, cli1);
     
-        tecnicoRepository.saveAll(Arrays.asList(tec1));
+        // Segundo técnico para testes
+        Tecnico tec2 = new Tecnico(
+            null,
+            "Ana Oliveira",
+            "000.000.000-25",
+            "ana.oliveira@empresa.com",
+            "$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi"
+        );
+        tec2.addPerfil(Perfil.TECNICO);
+    
+        // Cliente com dados válidos
+        Cliente cli1 = new Cliente(
+            null,
+            "Marcos Souza",
+            "001.000.000-30",
+            "marcos.souza@cliente.com",
+            "$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi"
+        );
+        cli1.addPerfil(Perfil.CLIENTE);
+    
+        // Chamados de exemplo
+        Chamado chamado1 = new Chamado(
+            null, 
+            Status.ABERTO, 
+            Prioridade.ALTA, 
+            "Falha no sistema de login", 
+            "Usuários não conseguem acessar o sistema com credenciais válidas",
+            tec1, 
+            cli1
+        );
+    
+        Chamado chamado2 = new Chamado(
+            null,
+            Status.ANDAMENTO,
+            Prioridade.MEDIA,
+            "Problema com impressora",
+            "Impressora não reconhece cartucho novo",
+            tec2,
+            cli1
+        );
+    
+        // Salvando todos os dados
+        tecnicoRepository.saveAll(Arrays.asList(tec1, tec2));
         clienteRepository.saveAll(Arrays.asList(cli1));
-        chamadoRepository.saveAll(Arrays.asList(chamado1));
-        System.out.println("Test database instantiated.");
+        chamadoRepository.saveAll(Arrays.asList(chamado1, chamado2));
+        
+        System.out.println("Banco de dados de teste inicializado com sucesso!");
     }
 }

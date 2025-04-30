@@ -13,6 +13,7 @@ import douglas.com.helpdesk.repositories.PessoaRepository;
 import douglas.com.helpdesk.repositories.TecnicoRepository;
 import douglas.com.helpdesk.services.exceptions.DataIntegrityViolationException;
 import douglas.com.helpdesk.services.exceptions.ObjectnotFoundException;
+import jakarta.validation.Valid;
 
 @Service
 public class TecnicoService {
@@ -34,6 +35,13 @@ public class TecnicoService {
         Tecnico newObj = new Tecnico(objDto); // Cria um novo objeto Tecnico a partir do DTO
         return tecnicoRepository.save(newObj); // Salva o novo objeto no banco de dados
     }
+    public Tecnico updateById(Integer id, @Valid TecnicoDTO objDto) {
+        objDto.setId(id); // Garante que o ID do novo objeto seja nulo, pois ele será gerado automaticamente pelo banco de dados
+        Tecnico oldObj = findById(id); // Busca o objeto existente no banco de dados
+        validaPorCpfEEmail(objDto); // Valida se o CPF e o email já existem no banco de dados
+        oldObj = new Tecnico(objDto); // Cria um novo objeto Tecnico a partir do DTO
+        return tecnicoRepository.save(oldObj); // Salva o objeto atualizado no banco de dados
+    }
     private void validaPorCpfEEmail(TecnicoDTO objDto) {
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDto.getCpf());
         if(obj.isPresent() && obj.get().getId() != objDto.getId()) {
@@ -46,4 +54,5 @@ public class TecnicoService {
             throw new DataIntegrityViolationException("Email já cadastrado no sistema! Email: ");
         }
     }
+
 }
