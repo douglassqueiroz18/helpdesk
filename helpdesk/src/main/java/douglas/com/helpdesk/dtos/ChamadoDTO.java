@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import douglas.com.helpdesk.models.Chamado;
+import jakarta.validation.constraints.NotNull;
 
 public class ChamadoDTO implements Serializable{
     private static final long serialVersionUID = 1L; // Número de versão para controle na serialização.
@@ -14,11 +15,17 @@ public class ChamadoDTO implements Serializable{
     private LocalDate dataAbetura = LocalDate.now();; // Data de abertura do chamado.
     @JsonFormat(pattern = "dd/MM/yyyy") // Formato da data de fechamento (ex: 01/01/2023).
     private LocalDate dataFechamento;
+    @NotNull(message = "O campo STATUS é obrigatório.") // Validação para garantir que o campo status não seja nulo.
     private Integer status;
+    @NotNull(message = "O campo PRIORIDADE é obrigatório.") // Validação para garantir que o campo prioridade não seja nulo.
     private Integer prioridade;
+    @NotNull(message = "O campo TITULO é obrigatório.") // Validação para garantir que o campo título não seja nulo.
     private String titulo;
+    @NotNull(message = "O campo OBSERVAÇÕES é obrigatório.") // Validação para garantir que o campo observações não seja nulo.
     private String observacoes;
+    @NotNull(message = "O campo TÉCNICO é obrigatório.") // Validação para garantir que o campo técnico não seja nulo.
     private Integer tecnico;
+    @NotNull(message = "O campo CLIENTE é obrigatório.") // Validação para garantir que o campo cliente não seja nulo.
     private Integer cliente;
     private String nomeTecnico;
     private String nomeCliente;
