@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import douglas.com.helpdesk.dtos.TecnicoDTO;
-import douglas.com.helpdesk.models.Tecnico;
-import douglas.com.helpdesk.services.TecnicoService;
+import douglas.com.helpdesk.dtos.ClienteDTO;
+import douglas.com.helpdesk.models.Cliente;
+import douglas.com.helpdesk.services.ClienteService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,25 +24,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping(value = "/Tecnicos")
-public class TecnicoResource {
+@RequestMapping(value = "/Clientes")
+public class ClienteResource {
 
     @Autowired
-    private TecnicoService tecnicoService;
+    private ClienteService ClienteService;
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) {
-        Tecnico obj = tecnicoService.findById(id);
-        return ResponseEntity.ok().body(new TecnicoDTO(obj));
+    public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) {
+        Cliente obj = ClienteService.findById(id);
+        return ResponseEntity.ok().body(new ClienteDTO(obj));
     }
     @GetMapping
-    public ResponseEntity<List<TecnicoDTO>> findAll() {
-        List<Tecnico> list = tecnicoService.findAll();
-        List<TecnicoDTO> listDto = list.stream().map(obj -> new TecnicoDTO(obj)).toList();
+    public ResponseEntity<List<ClienteDTO>> findAll() {
+        List<Cliente> list = ClienteService.findAll();
+        List<ClienteDTO> listDto = list.stream().map(obj -> new ClienteDTO(obj)).toList();
         return ResponseEntity.ok().body(listDto);
     }
     @PostMapping
-    public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO objDto) {
-        System.out.println("Recebendo os dados do técnico no tecnicoResource: " + objDto);
+    public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO objDto) {
+        System.out.println("Recebendo os dados do técnico no ClienteResource: " + objDto);
         if (objDto.getCpf() == null || objDto.getCpf().isEmpty()) {
             System.out.println("CPF não pode ser nulo ou vazio.");
             return ResponseEntity.badRequest().build(); // Retorna um erro 400 Bad Request se o CPF for inválido
@@ -55,18 +55,18 @@ public class TecnicoResource {
             System.out.println("Nome não pode ser nulo ou vazio.");
             return ResponseEntity.badRequest().build(); // Retorna um erro 400 Bad Request se o nome for inválido
         }
-        Tecnico newObj = tecnicoService.createTecnico(objDto);
+        Cliente newObj = ClienteService.createCliente(objDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
-        return ResponseEntity.created(uri).body(new TecnicoDTO(newObj));
+        return ResponseEntity.created(uri).body(new ClienteDTO(newObj));
     }
     @PutMapping(value="/{id}")
-    public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @Valid @RequestBody TecnicoDTO objDto) {
-        Tecnico obj = tecnicoService.updateById(id, objDto);
-        return ResponseEntity.ok().body(new TecnicoDTO(obj));
+    public ResponseEntity<ClienteDTO> update(@PathVariable Integer id, @Valid @RequestBody ClienteDTO objDto) {
+        Cliente obj = ClienteService.updateById(id, objDto);
+        return ResponseEntity.ok().body(new ClienteDTO(obj));
     }
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<TecnicoDTO> delete(@PathVariable Integer id) {
-        tecnicoService.deleteById(id);
+    public ResponseEntity<ClienteDTO> delete(@PathVariable Integer id) {
+        ClienteService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
