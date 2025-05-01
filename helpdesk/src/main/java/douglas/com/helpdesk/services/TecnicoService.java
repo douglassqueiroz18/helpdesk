@@ -42,6 +42,15 @@ public class TecnicoService {
         oldObj = new Tecnico(objDto); // Cria um novo objeto Tecnico a partir do DTO
         return tecnicoRepository.save(oldObj); // Salva o objeto atualizado no banco de dados
     }
+    public void deleteById(Integer id) {
+        Tecnico obj = findById(id); // Busca o objeto existente no banco de dados
+        if (obj.getChamados().size() > 0) {
+            // Se o técnico tiver chamados associados, lança uma exceção
+            throw new DataIntegrityViolationException("Técnico possui ordens de serviço e não pode ser deletado! Id: " + id);
+        }else {
+            tecnicoRepository.deleteById(id); // Deleta o objeto do banco de dados
+        }
+    }
     private void validaPorCpfEEmail(TecnicoDTO objDto) {
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDto.getCpf());
         if(obj.isPresent() && obj.get().getId() != objDto.getId()) {
@@ -54,5 +63,6 @@ public class TecnicoService {
             throw new DataIntegrityViolationException("Email já cadastrado no sistema! Email: ");
         }
     }
+
 
 }
