@@ -38,7 +38,12 @@ public class ChamadoService {
     public Chamado createChamado(ChamadoDTO objDto) {
         return chamadoRepository.save(newChamado(objDto)); // Cria um novo objeto Chamado a partir do DTO
     }
-
+    public Chamado updateChamado(Integer id, ChamadoDTO objDto) {
+        objDto.setId(id); // Garante que o ID do novo objeto seja nulo, pois ele será gerado automaticamente pelo banco de dados
+        Chamado oldObj = findById(id); // Busca o objeto existente no banco de dados
+        oldObj = newChamado(objDto); // Cria um novo objeto Chamado a partir do DTO
+        return chamadoRepository.save(oldObj); // Salva o objeto atualizado no banco de dados
+    } 
     private Chamado newChamado(ChamadoDTO obj) {
         Tecnico tecnico = tecnicoService.findById(obj.getTecnico()); // Cria um novo objeto Chamado a partir do DTO
         Cliente cliente = clienteService.findById(obj.getCliente()); // Cria um novo objeto Chamado a partir do DTO
@@ -63,4 +68,6 @@ public class ChamadoService {
                                                       // automaticamente pelo banco de dados
         return chamado; // Salva o novo objeto no banco de dados
     }
+
+
 }
