@@ -12,9 +12,9 @@ import jakarta.annotation.PostConstruct;
 public class TestConfig {
 
     @Autowired
-    private DBService dbServices;
+    private DBService dbService;
     @PostConstruct
     public void instantiateTestDatabase() {
-        this.dbServices.instantiateTestDatabase();
+        this.dbService.instantiateTestDatabase();
     }
 }

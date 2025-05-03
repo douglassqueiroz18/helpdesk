@@ -3,6 +3,7 @@ package douglas.com.helpdesk.services;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import douglas.com.helpdesk.enums.Perfil;
@@ -24,6 +25,8 @@ public class DBService {
     private ClienteRepository clienteRepository;
     @Autowired
     private ChamadoRepository chamadoRepository;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
     public void instantiateTestDatabase() {
         // CPF válido (formato XXX.XXX.XXX-XX ou XXXXXXXXXXX)
         Tecnico tec1 = new Tecnico(
@@ -31,8 +34,10 @@ public class DBService {
             "Douglas Silva",  // Nome completo
             "000.000.001-60", // CPF válido gerado aleatoriamente
             "douglas.silva@empresa.com", // Email válido
-            "$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi" // Senha BCrypt
+            encoder.encode("102030") // Senha BCrypt
+            
         );
+        
         tec1.addPerfil(Perfil.ADMIN);
     
         // Segundo técnico para testes
@@ -41,7 +46,7 @@ public class DBService {
             "Ana Oliveira",
             "000.000.000-25",
             "ana.oliveira@empresa.com",
-            "$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi"
+            encoder.encode("102030")
         );
         tec2.addPerfil(Perfil.TECNICO);
     
@@ -51,7 +56,7 @@ public class DBService {
             "Marcos Souza",
             "001.000.000-30",
             "marcos.souza@cliente.com",
-            "$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi"
+            encoder.encode("102030")
         );
         cli1.addPerfil(Perfil.CLIENTE);
     

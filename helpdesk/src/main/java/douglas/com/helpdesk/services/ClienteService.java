@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import douglas.com.helpdesk.dtos.ClienteDTO;
@@ -22,6 +23,8 @@ public class ClienteService {
     private ClienteRepository ClienteRepository;
     @Autowired
     private PessoaRepository pessoaRepository; // Adicionando o repositório de Pessoa para validação de CPF e email
+    @Autowired
+    private BCryptPasswordEncoder encoder;
     public Cliente findById(Integer id) {
         Optional<Cliente> obj = ClienteRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
@@ -31,6 +34,7 @@ public class ClienteService {
     }
     public Cliente createCliente(ClienteDTO objDto) {
         objDto.setId(null); // Garante que o ID do novo objeto seja nulo, pois ele será gerado automaticamente pelo banco de dados
+        objDto.setSenha(encoder.encode(objDto.getSenha())); // Criptografa a senha antes de salvar
         validaPorCpfEEmail(objDto); // Valida se o CPF e o email já existem no banco de dados
         Cliente newObj = new Cliente(objDto); // Cria um novo objeto Cliente a partir do DTO
         return ClienteRepository.save(newObj); // Salva o novo objeto no banco de dados
