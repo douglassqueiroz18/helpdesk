@@ -3,6 +3,7 @@ package douglas.com.helpdesk.config;
 import java.util.Arrays;
 
 import org.springframework.core.env.Environment;
+import douglas.com.helpdesk.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +21,13 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import douglas.com.helpdesk.security.JWTAuthenticationFilter;
+import douglas.com.helpdesk.security.JWTAuthorizationFilter;
 import douglas.com.helpdesk.security.JWTUtil;
 @EnableWebSecurity
 @Configuration // Define essa classe como uma classe de configuração
 public class SecurityConfig {
+
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
     // Injeta o ambiente do Spring para verificar perfis ativos (ex: "test")
     @Lazy
     @Autowired
@@ -37,6 +41,11 @@ public class SecurityConfig {
     // Serviço responsável por buscar os detalhes do usuário (usado na autenticação)
     @Autowired
     private UserDetailsService userDetailsService;
+
+
+    SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    }
 
 
     @Bean
@@ -71,8 +80,8 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**", "/login").permitAll()
                 .anyRequest().authenticated()
             )
-            .addFilter(new JWTAuthenticationFilter(authManager, jwtUtil));
-            
+            .addFilter(new JWTAuthenticationFilter(authManager, jwtUtil))
+            .addFilter(new JWTAuthorizationFilter(authManager, jwtUtil, userDetailsService));
         // Apenas uma chamada para build()
         return http.build();
     }
