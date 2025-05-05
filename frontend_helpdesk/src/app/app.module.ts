@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {MatButtonModule} from '@angular/material/button';
 import { NavComponent } from './components/nav/nav.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import { NavComponent } from './components/nav/nav.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

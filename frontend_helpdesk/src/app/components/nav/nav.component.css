@@ -1,0 +1,47 @@
+.container {
+    height: 100vh;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .sidenav {
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(115deg, #3b3f45, #0d0d0e); /* Gradiente suave de cinza escuro */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    padding-top: 24px;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #a1a4a8;
+  }
+  
+  .sidenav a {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    text-decoration: none;
+    color: #cfd2d6; /* Texto claro para contraste */
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .sidenav a:hover {
+    background-color: #787b7e;
+    color: #ffffff; /* Texto branco ao passar o mouse */
+    border-radius: 4px;
+  }
+  
+  .sidenav mat-icon {
+    margin-right: 12px;
+  }
+  
+  .content {
+    margin-left: 250px;
+    padding: 24px;
+    width: calc(100% - 250px);
+  }
+  .menu{
+    margin: 1rem 0 0 1rem;
+  }
+  
