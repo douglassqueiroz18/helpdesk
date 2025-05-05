@@ -3,12 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-home',
   standalone: false,
-  template: `
-    <p>
-      home works!
-    </p>
-  `,
-  styles: ``
+  templateUrl:'home.component.html',
+  styleUrls: ['home.component.css'],
 })
 export class HomeComponent {
 
