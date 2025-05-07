@@ -12,7 +12,7 @@
   }
   
   /* Telas até 768px (celulares e tablets menores) */
-  @media (max-width: 768px) {
+ /* @media (max-width: 768px) {
     .card {
       width: 60%;
       height: 23rem;
@@ -21,21 +21,21 @@
     img {
       height: 10rem;
     }
-  }
+  }*/
   
   /* Telas entre 769px e 1199px (tablets maiores, laptops) */
-  @media (max-width: 1199px) and (min-width: 769px) {
+  /*@media (max-width: 1199px) and (min-width: 769px) {
     .card {
       width: 80%;
-      height: 45rem;
+      height: 35rem;
     }
   
     img {
       height: 45rem;
     }
-  }
+  }*/
   /* Telas grandes (1200px até 1919px) */
-@media (min-width: 1200px) and (max-width: 1919px) {
+/*@media (min-width: 1200px) and (max-width: 1919px) {
     .card {
       width: 80%;
       height: 50rem;
@@ -44,9 +44,9 @@
     img {
       height: 50rem;
     }
-  }
+  }*/
   /* Telas ultrawide (1920px ou mais) */
-@media (min-width: 1920px) {
+/*@media (min-width: 1920px) {
     .card {
       width: 85%;
       height: 50rem;
@@ -55,4 +55,4 @@
     img {
       height: 50rem;
     }
-  }
+  }*/
